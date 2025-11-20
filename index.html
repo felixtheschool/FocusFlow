@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FocusFlow – Study Session Planner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Chart.js for simple stats -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <h1>FocusFlow</h1>
+    <p>Plan, focus, and reflect on your study sessions.</p>
+  </header>
+
+  <main class="layout">
+    <!-- Left: Session Planner -->
+    <section class="panel">
+      <h2>Create New Session</h2>
+      <form id="session-form">
+        <label>
+          Session Title
+          <input type="text" id="session-title" required />
+        </label>
+
+        <label>
+          Subject
+          <input type="text" id="session-subject" placeholder="e.g. Math, History" />
+        </label>
+
+        <label>
+          Duration (minutes)
+          <input type="number" id="session-duration" min="5" value="25" required />
+        </label>
+
+        <label>
+          Break Length (minutes)
+          <input type="number" id="session-break" min="1" value="5" />
+        </label>
+
+        <label>
+          Tasks for this session (one per line)
+          <textarea id="session-tasks" rows="4" placeholder="Review notes&#10;Do practice problems"></textarea>
+        </label>
+
+        <button type="submit" class="primary-btn">Create Session</button>
+      </form>
+
+      <section class="panel-sub">
+        <h3>Today’s Sessions</h3>
+        <ul id="today-sessions" class="session-list"></ul>
+      </section>
+    </section>
+
+    <!-- Right: Timer & History -->
+    <section class="panel">
+      <h2>Active Session</h2>
+      <div id="active-session">
+        <p id="no-active-session">No active session. Create one on the left to begin.</p>
+
+        <div id="active-session-content" class="hidden">
+          <h3 id="active-title"></h3>
+          <p class="muted" id="active-subject"></p>
+
+          <div class="timer">
+            <span id="timer-display">00:00</span>
+          </div>
+
+          <div class="timer-controls">
+            <button id="start-btn" class="primary-btn">Start</button>
+            <button id="pause-btn" class="secondary-btn" disabled>Pause</button>
+            <button id="end-btn" class="danger-btn" disabled>End</button>
+          </div>
+
+          <section class="panel-sub">
+            <h4>Tasks</h4>
+            <ul id="active-tasks"></ul>
+          </section>
+
+          <section class="panel-sub">
+            <h4>Distraction Logger</h4>
+            <div class="distraction-buttons">
+              <button data-type="Phone">Phone</button>
+              <button data-type="Social Media">Social Media</button>
+              <button data-type="Chatting">Chatting</button>
+              <button data-type="Other">Other</button>
+            </div>
+            <ul id="distraction-list" class="small-list"></ul>
+          </section>
+        </div>
+      </div>
+
+      <!-- Reflection Modal -->
+      <div id="reflection-modal" class="modal hidden">
+        <div class="modal-content">
+          <h3>Session Reflection</h3>
+          <form id="reflection-form">
+            <label>
+              Focus rating (1–5)
+              <input type="number" id="reflection-rating" min="1" max="5" value="4" required />
+            </label>
+
+            <label>
+              What went well?
+              <textarea id="reflection-good" rows="2"></textarea>
+            </label>
+
+            <label>
+              What will you change next time?
+              <textarea id="reflection-improve" rows="2"></textarea>
+            </label>
+
+            <div class="modal-actions">
+              <button type="submit" class="primary-btn">Save Reflection</button>
+              <button type="button" id="close-modal" class="secondary-btn">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- History & Stats -->
+      <section class="panel-sub">
+        <h3>Session History</h3>
+        <ul id="history-list" class="session-list small-list"></ul>
+      </section>
+
+      <section class="panel-sub">
+        <h3>Focus Time by Subject</h3>
+        <canvas id="subject-chart" height="150"></canvas>
+      </section>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <small>All data is stored locally in your browser.</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
